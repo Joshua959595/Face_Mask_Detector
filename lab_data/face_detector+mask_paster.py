@@ -4,7 +4,7 @@ import face_recognition
 from PIL import Image, ImageDraw
 import numpy as np
 
-mask_image_path = 'data/mask.png'
+mask_image_path = '../data/mask.png'
 i = 0
 target = 10
 
@@ -45,6 +45,7 @@ while i != target:
             dy = bottom_standard[1] - top_standard[1]
             angleRadian = np.arctan2(dy,dx)
             angleDegree = np.rad2deg(angleRadian)
+
             Angle = 90-angleDegree
 
             '''
@@ -57,8 +58,9 @@ while i != target:
                 #draw.rectangle(((left, top), (right, bottom)), outrline=(255, 255, 0), width=4)  # outline=(R,G,B)
             '''
             # mask_image는 바로 붙이니까 open으로 바로
-            mask_image = Image.open(mask_image_path).rotate(round(Angle), expand=True)
-            mask_image = mask_image.resize((round(mask_xsize), mask_ysize))
+            mask_image = Image.open(mask_image_path)
+            mask_image = mask_image.resize((round(mask_xsize*1.2), mask_ysize))
+            mask_image = mask_image.rotate(round(Angle), expand=True)
 
             face_image.paste(mask_image, (maskPositionX,maskPositionY), mask_image) # paste 인자 마지막에 이미지를 한번 더 넣어줌으로써, 이미지 배경 투명화
             face_image.show()
